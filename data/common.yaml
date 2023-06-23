@@ -1,1 +1,5 @@
---- {}
+---
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+pe_to_mqtt::disable_report_mqtt: false
+pe_to_mqtt::publish_status: 'all'
