@@ -97,7 +97,7 @@ class pe_to_mqtt (
     }
 
     # Modify default route_file in Puppet.conf
-    ini_subsetting { 'change default route_file':
+    ini_setting { 'change default route_file':
       ensure  => present,
       path    => "${settings::confdir}/puppet.conf",
       section => 'master',
