@@ -1,0 +1,10 @@
+# Managed by Puppet (pe_to_mqtt module)
+---
+mqtt:
+  hostname: <%= $pe_to_mqtt::mqtt_hostname %>
+  port: <%= $pe_to_mqtt::mqtt_port %>
+report:
+  disabled: <%= $pe_to_mqtt::disable_report_mqtt %>
+  publish_status: <%= $pe_to_mqtt::report_publish_status %>
+facts:
+  disabled: <%= $pe_to_mqtt::disable_facts_mqtt %>

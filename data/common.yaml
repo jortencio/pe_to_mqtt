@@ -1,5 +1,11 @@
 ---
+pe_to_mqtt::manage_mqtt_gem: true
+pe_to_mqtt::configure_report_processor: true
+pe_to_mqtt::manage_route_file: true
 pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
 pe_to_mqtt::mqtt_port: 1883
 pe_to_mqtt::disable_report_mqtt: false
-pe_to_mqtt::publish_status: 'all'
+pe_to_mqtt::disable_facts_mqtt: false
+pe_to_mqtt::report_publish_status: 'all'
+pe_to_mqtt::facts_terminus: mqtt
+pe_to_mqtt::facts_cache_terminus: json

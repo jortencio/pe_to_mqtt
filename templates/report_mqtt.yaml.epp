@@ -1,7 +1,0 @@
-# Managed by Puppet
----
-mqtt:
-  hostname: <%= $pe_to_mqtt::mqtt_hostname %>
-  port: <%= $pe_to_mqtt::mqtt_port %>
-disabled: <%= $pe_to_mqtt::disable_report_mqtt %>
-publish_status: <%= $pe_to_mqtt::publish_status %>
