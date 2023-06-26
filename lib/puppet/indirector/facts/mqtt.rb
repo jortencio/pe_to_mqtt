@@ -9,14 +9,13 @@ class Puppet::Node::Facts::Mqtt < Puppet::Node::Facts::Puppetdb
 
   def save(request)
     Puppet.info 'Publish facts to mqtt'
+    mqtt_config_file = Puppet[:confdir] + '/pe_mqtt.yaml'
+
+    mqtt_config = YAML.load_file(mqtt_config_file)
 
     if mqtt_config['facts']['disabled']
       Puppet.info 'mqtt facts terminus is disabled, no fact data published to mqtt'
     else
-      mqtt_config_file = Puppet[:confdir] + '/pe_mqtt.yaml'
-
-      mqtt_config = YAML.load_file(mqtt_config_file)
-
       request_body = {
         'certname' => request.key,
         'facts' => request.instance.values,
