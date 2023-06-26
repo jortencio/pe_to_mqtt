@@ -12,7 +12,7 @@ Puppet::Reports.register_report(:report_mqtt) do
 
     mqtt_config = YAML.load_file(mqtt_config_file)
 
-    if mqtt_config['disabled']
+    if mqtt_config['report']['disabled']
       Puppet.info 'report_mqtt is disabled, no report data published to mqtt'
       return 0
     end

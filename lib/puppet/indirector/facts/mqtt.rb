@@ -10,7 +10,7 @@ class Puppet::Node::Facts::Mqtt < Puppet::Node::Facts::Puppetdb
   def save(request)
     Puppet.info 'Publish facts to mqtt'
 
-    if mqtt_config['disabled']
+    if mqtt_config['facts']['disabled']
       Puppet.info 'mqtt facts terminus is disabled, no fact data published to mqtt'
     else
       mqtt_config_file = Puppet[:confdir] + '/pe_mqtt.yaml'
