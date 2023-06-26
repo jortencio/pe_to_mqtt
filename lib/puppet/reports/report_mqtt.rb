@@ -21,7 +21,7 @@ Puppet::Reports.register_report(:report_mqtt) do
       Puppet.info 'Connecting to MQTT'
       mqtt_conn = MQTT::Client.connect(host: mqtt_config['mqtt']['hostname'], port: mqtt_config['mqtt']['port'])
 
-      if mqtt_config['publish_status'] == 'all' || self.status == mqtt_config['publish_status']
+      if mqtt_config['report']['publish_status'] == 'all' || self.status == mqtt_config['report']['publish_status']
         mqtt_conn.publish('puppet/reports', self.to_json)
       end
     rescue => e
