@@ -8,7 +8,7 @@ Puppet::Reports.register_report(:report_mqtt) do
   # Define and configure the report processor.
   # rubocop:disable Style/RedundantSelf
   def process
-    mqtt_config_file = Puppet[:confdir] + '/report_mqtt.yaml'
+    mqtt_config_file = Puppet[:confdir] + '/pe_mqtt.yaml'
 
     mqtt_config = YAML.load_file(mqtt_config_file)
 
@@ -21,7 +21,7 @@ Puppet::Reports.register_report(:report_mqtt) do
       Puppet.info 'Connecting to MQTT'
       mqtt_conn = MQTT::Client.connect(host: mqtt_config['mqtt']['hostname'], port: mqtt_config['mqtt']['port'])
 
-      if mqtt_config['publish_status'] == 'all' || status == mqtt_config['publish_status']
+      if mqtt_config['publish_status'] == 'all' || self.status == mqtt_config['publish_status']
         mqtt_conn.publish('puppet/reports', self.to_json)
       end
     rescue => e

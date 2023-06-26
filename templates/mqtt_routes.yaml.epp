@@ -1,0 +1,5 @@
+# Managed by Puppet (pe_to_mqtt module)
+master:
+  facts:
+    terminus: "<%= $pe_to_mqtt::facts_terminus %>"
+    cache: "<%= $pe_to_mqtt::facts_cache_terminus %>"
