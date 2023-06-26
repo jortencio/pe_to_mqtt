@@ -25,10 +25,7 @@ class Puppet::Node::Facts::Mqtt < Puppet::Node::Facts::Puppetdb
       begin
         Puppet.info 'Connecting to MQTT'
         mqtt_conn = MQTT::Client.connect(host: mqtt_config['mqtt']['hostname'], port: mqtt_config['mqtt']['port'])
-
-        if mqtt_config['publish_status'] == 'all' || status == mqtt_config['publish_status']
-          mqtt_conn.publish('puppet/facts', request_body)
-        end
+        mqtt_conn.publish('puppet/facts', request_body)
       rescue => e
         Puppet.err 'Error in mqtt facts terminus.  Message: ' + e.message
       ensure
