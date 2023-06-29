@@ -1,10 +1,8 @@
 # pe_to_mqtt
 
-Welcome to your new module. A short overview of the generated parts can be found
-in the [PDK documentation][1].
+A Puppet module that is used for setting up a fact terminus and/or report processor for publishing fact and/or report data respectively to an MQTT broker via the MQTT protocol.
 
-The README template below provides a starting point with details about what
-information to include in your README.
+>Note: This module has been tested to send data to an EMQX MQTT broker, but should work with other MQTT brokers as well as it is just making using a generic MQTT client.
 
 ## Table of Contents
 
@@ -19,99 +17,108 @@ information to include in your README.
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your
-module does and what kind of problems users can solve with it.
-
-This should be a fairly short description helps the user decide if your module
-is what they want.
+This Puppet module can be used to configure a Puppet Enterprise server to send data to a given MQTT broker via to MQTT protocol.
 
 ## Setup
 
-### What pe_to_mqtt affects **OPTIONAL**
+### What pe_to_mqtt affects
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+This module will manage/install the [mqtt gem](https://www.rubydoc.info/gems/mqtt) on the Puppet server and will configure the following configuration files:
 
-If there's more that they should know about, though, this is the place to
-mention:
+  - *puppet.conf* file to make use of the fact indirector code (via a custom route_file) and report processor code installed via this module.
+  - *mqtt_routes.yaml* a custom route_file for setting the facts terminus and facts cache terminus
+  - *pe_mqtt.yaml* a configuration file for setting MQTT server details and controlling fact/report data sent to the MQTT broker
 
-* Files, packages, services, or operations that the module will alter, impact,
-  or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+### Setup Requirements
 
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section here.
+ - Puppet Enterprise (PE)
+ - MQTT Broker (Such as [EMQX][1])
 
 ### Beginning with pe_to_mqtt
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most basic
-use of the module.
+Basic configuration to set up both the facts terminus and report processor to report to a given MQTT broker, classify the Puppet Primary server with the following:
+
+```puppet
+class { 'pe_to_mqtt':
+  mqtt_hostname => '<mqtt hostname>',
+}
+```
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your
-users how to use your module to solve problems, and be sure to include code
-examples. Include three to five examples of the most important or common tasks a
-user can accomplish with your module. Show users how to accomplish more complex
-tasks that involve different types, classes, and functions working in tandem.
+This module supports the use of Hiera data for setting parameters.  The following is a list of parameters configurable in Hiera: (Please refer to REFERENCE.md for more details)
 
-## Reference
-
-This section is deprecated. Instead, add reference information to your code as
-Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your
-module. For details on how to add code comments and generate documentation with
-Strings, see the [Puppet Strings documentation][2] and [style guide][3].
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the
-root of your module directory and list out each of your module's classes,
-defined types, facts, functions, Puppet tasks, task plans, and resource types
-and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-* The data type, if applicable.
-* A description of what the element does.
-* Valid values, if the data type doesn't make it obvious.
-* Default value, if any.
-
-For example:
-
+```yaml
+---
+pe_to_mqtt::manage_mqtt_gem: true
+pe_to_mqtt::configure_report_processor: true
+pe_to_mqtt::manage_route_file: true
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+pe_to_mqtt::disable_report_mqtt: false
+pe_to_mqtt::disable_facts_mqtt: false
+pe_to_mqtt::report_publish_status: 'all'
+pe_to_mqtt::facts_terminus: mqtt
+pe_to_mqtt::facts_cache_terminus: json
 ```
-### `pet::cat`
 
-#### Parameters
+Common usage:
 
-##### `meow`
+Classify a node with pe_to_mqtt:
 
-Enables vocalization in your cat. Valid options: 'string'.
-
-Default: 'medium-loud'.
+```puppet
+include pe_to_mqtt
 ```
+
+Configure pe_to_mqtt to only configure the fact terminus:
+
+```yaml
+---
+pe_to_mqtt::configure_report_processor: false
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+```
+
+Configure pe_to_mqtt to only configure the fact terminus:
+
+```yaml
+---
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+pe_to_mqtt::manage_route_file: false
+```
+
+Configure pe_to_mqtt to only configure the report processor:
+
+```yaml
+---
+pe_to_mqtt::configure_report_processor: false
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+```
+
+Configure pe_to_mqtt to only send failed reports to MQTT broker:
+
+```yaml
+---
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+pe_to_mqtt::report_publish_status: 'failed'
+```
+
 
 ## Limitations
 
-In the Limitations section, list any incompatibilities, known issues, or other
-warnings.
+  - Currently only tested on a Puppet Enterprise Installation
+  - Only basic configuration is available for MQTT, (e.g. SSL not yet supported).
+  - The report_processor may not be able to send the Puppet primary servers reports to MQTT due to this [issue][2]
+  - Unable to filter facts, all facts are sent to MQTT
+  - Limitation in the filtering of reports sent to MQTT
 
 ## Development
 
-In the Development section, tell other users the ground rules for contributing
-to your project and how they should submit their work.
+If you would like to contribute with the development of this module, please feel free to log development changes in the [issues][3] register for this project  
 
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel are
-necessary or important to include here. Please use the `##` header.
-
-[1]: https://puppet.com/docs/pdk/latest/pdk_generating_modules.html
-[2]: https://puppet.com/docs/puppet/latest/puppet_strings.html
-[3]: https://puppet.com/docs/puppet/latest/puppet_strings_style.html
+[1]: https://www.emqx.io/
+[2]: https://github.com/jortencio/pe_to_mqtt/issues/6
+[3]: https://github.com/jortencio/pe_to_mqtt/issues
