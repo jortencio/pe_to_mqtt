@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet/indirector/facts/puppetdb'
 require 'mqtt'
 require 'yaml'
@@ -7,6 +9,7 @@ class Puppet::Node::Facts::Mqtt < Puppet::Node::Facts::Puppetdb
   desc 'Publish facts to mqtt and save to PuppetDB.
        It uses PuppetDB to retrieve facts for catalog compilation.'
 
+  # Publish facts to MQTT broker
   def save(request)
     Puppet.info 'Publish facts to mqtt'
     mqtt_config_file = Puppet[:confdir] + '/pe_mqtt.yaml'
