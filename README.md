@@ -19,6 +19,9 @@ A Puppet module that is used for setting up a fact terminus and/or report proces
 
 This Puppet module can be used to configure a Puppet Enterprise server to send data to a given MQTT broker via the MQTT protocol.
 
+  - Facts data for nodes will by default be published to the topic *puppet/facts*
+  - Reports for nodes will by default be published to the topic *puppet/reports*
+
 ## Setup
 
 ### What pe_to_mqtt affects
