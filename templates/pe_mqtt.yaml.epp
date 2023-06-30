@@ -5,6 +5,8 @@ mqtt:
   port: <%= $pe_to_mqtt::mqtt_port %>
 report:
   disabled: <%= $pe_to_mqtt::disable_report_mqtt %>
+  topic: <%= $pe_to_mqtt::report_mqtt_topic %>
   publish_status: <%= $pe_to_mqtt::report_publish_status %>
 facts:
   disabled: <%= $pe_to_mqtt::disable_facts_mqtt %>
+  topic: <%= $pe_to_mqtt::facts_mqtt_topic %>

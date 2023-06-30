@@ -30,6 +30,10 @@
 # 
 #   Parameter for controlling which reports to publish based on report status.  Default: all
 #
+# @param report_mqtt_topic
+# 
+#   MQTT topic to publish reports to.  Default: puppet/reports
+#
 # @param disable_facts_mqtt
 # 
 #   Parameter for controlling which reports to publish based on report status.  Default: all
@@ -42,6 +46,10 @@
 # 
 #   The mqtt facts cache terminus to set in route_file.  Default: json
 #
+# @param facts_mqtt_topic
+# 
+#   MQTT topic to publish facts to.  Default: puppet/facts
+#
 # @example
 #   include pe_to_mqtt
 class pe_to_mqtt (
@@ -52,9 +60,11 @@ class pe_to_mqtt (
   Integer                                    $mqtt_port,
   Boolean                                    $disable_report_mqtt,
   Enum['all','changed','unchanged','failed'] $report_publish_status,
+  String                                     $report_mqtt_topic,
   Boolean                                    $disable_facts_mqtt,
   String                                     $facts_terminus,
-  String                                     $facts_cache_terminus
+  String                                     $facts_cache_terminus,
+  String                                     $facts_mqtt_topic,
 ) {
   if $manage_mqtt_gem {
     # Install the mqtt gem
