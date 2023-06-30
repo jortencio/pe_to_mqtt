@@ -12,12 +12,15 @@ A Puppet module that is used for setting up a fact terminus and/or report proces
     * [Setup requirements](#setup-requirements)
     * [Beginning with pe_to_mqtt](#beginning-with-pe_to_mqtt)
 1. [Usage - Configuration options and additional functionality](#usage)
-1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Development - Guide for contributing to the module](#development)
+1. [Limitations](#limitations)
+1. [Development - Contributing to the module](#development)
 
 ## Description
 
-This Puppet module can be used to configure a Puppet Enterprise server to send data to a given MQTT broker via to MQTT protocol.
+This Puppet module can be used to configure a Puppet Enterprise server to send data to a given MQTT broker via the MQTT protocol.
+
+  - Facts data for nodes will by default be published to the topic *puppet/facts*
+  - Reports for nodes will by default be published to the topic *puppet/reports*
 
 ## Setup
 
@@ -58,8 +61,10 @@ pe_to_mqtt::mqtt_port: 1883
 pe_to_mqtt::disable_report_mqtt: false
 pe_to_mqtt::disable_facts_mqtt: false
 pe_to_mqtt::report_publish_status: 'all'
+pe_to_mqtt::report_mqtt_topic: 'puppet/reports'
 pe_to_mqtt::facts_terminus: mqtt
 pe_to_mqtt::facts_cache_terminus: json
+pe_to_mqtt::facts_mqtt_topic: 'puppet/facts'
 ```
 
 Common usage:
@@ -106,19 +111,26 @@ pe_to_mqtt::mqtt_port: 1883
 pe_to_mqtt::report_publish_status: 'failed'
 ```
 
+Configure pe_to_mqtt to only send reports to a different MQTT topic:
+
+```yaml
+---
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+pe_to_mqtt::report_mqtt_topic: 'custom_topic/puppet_reports'
+```
 
 ## Limitations
 
-  - Currently only tested on a Puppet Enterprise Installation
+  - Currently only tested on a Puppet Enterprise Installation (PE 2021.7.3)
   - Only basic configuration is available for MQTT, (e.g. SSL not yet supported).
-  - The report_processor may not be able to send the Puppet primary servers reports to MQTT due to this [issue][2]
   - Unable to filter facts, all facts are sent to MQTT
   - Limitation in the filtering of reports sent to MQTT
+  - There may be some issues publishing facts/report data that is > 500 KB.  This behaviour has been noticed for Puppet Primary Server/Compiler reports where reports published to the MQTT Broker seem to get lost when they are greater than 500 KB. (Future plans to add settings for controlling the report payload in the future which can help control payload size)
 
 ## Development
 
-If you would like to contribute with the development of this module, please feel free to log development changes in the [issues][3] register for this project  
+If you would like to contribute with the development of this module, please feel free to log development changes in the [issues][2] register for this project  
 
 [1]: https://www.emqx.io/
-[2]: https://github.com/jortencio/pe_to_mqtt/issues/6
-[3]: https://github.com/jortencio/pe_to_mqtt/issues
+[2]: https://github.com/jortencio/pe_to_mqtt/issues

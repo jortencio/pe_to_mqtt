@@ -33,9 +33,11 @@ The following parameters are available in the `pe_to_mqtt` class:
 * [`mqtt_port`](#-pe_to_mqtt--mqtt_port)
 * [`disable_report_mqtt`](#-pe_to_mqtt--disable_report_mqtt)
 * [`report_publish_status`](#-pe_to_mqtt--report_publish_status)
+* [`report_mqtt_topic`](#-pe_to_mqtt--report_mqtt_topic)
 * [`disable_facts_mqtt`](#-pe_to_mqtt--disable_facts_mqtt)
 * [`facts_terminus`](#-pe_to_mqtt--facts_terminus)
 * [`facts_cache_terminus`](#-pe_to_mqtt--facts_cache_terminus)
+* [`facts_mqtt_topic`](#-pe_to_mqtt--facts_mqtt_topic)
 
 ##### <a name="-pe_to_mqtt--manage_mqtt_gem"></a>`manage_mqtt_gem`
 
@@ -79,6 +81,12 @@ Data type: `Enum['all','changed','unchanged','failed']`
 
 Parameter for controlling which reports to publish based on report status.  Default: all
 
+##### <a name="-pe_to_mqtt--report_mqtt_topic"></a>`report_mqtt_topic`
+
+Data type: `String`
+
+MQTT topic to publish reports to.  Default: puppet/reports
+
 ##### <a name="-pe_to_mqtt--disable_facts_mqtt"></a>`disable_facts_mqtt`
 
 Data type: `Boolean`
@@ -96,4 +104,10 @@ The mqtt facts terminus to set in route_file.  Default: mqtt
 Data type: `String`
 
 The mqtt facts cache terminus to set in route_file.  Default: json
+
+##### <a name="-pe_to_mqtt--facts_mqtt_topic"></a>`facts_mqtt_topic`
+
+Data type: `String`
+
+MQTT topic to publish facts to.  Default: puppet/facts
 
