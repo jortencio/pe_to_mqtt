@@ -126,7 +126,7 @@ pe_to_mqtt::report_mqtt_topic: 'custom_topic/puppet_reports'
   - Only basic configuration is available for MQTT, (e.g. SSL not yet supported).
   - Unable to filter facts, all facts are sent to MQTT
   - Limitation in the filtering of reports sent to MQTT
-  - There may be some issues publishing facts/report data that is > 500 KB.  This behaviour has been noticed for Puppet Primary Server/Compiler reports where reports seem to get lost when they are greater than 500KB. (Thinking of adding settings for controlling the report payload in the future)
+  - There may be some issues publishing facts/report data that is > 500 KB.  This behaviour has been noticed for Puppet Primary Server/Compiler reports where reports published to the MQTT Broker seem to get lost when they are greater than 500 KB. (Future plans to add settings for controlling the report payload in the future which can help control payload size)
 
 ## Development
 
