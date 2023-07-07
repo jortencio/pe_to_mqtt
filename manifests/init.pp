@@ -4,51 +4,55 @@
 # 
 # @param manage_mqtt_gem
 # 
-#   Boolean for setting whether to manage the required mqtt gem on Puppet server.  Default: true
+#   Boolean for setting whether to manage the required mqtt gem on Puppet server.
 # 
 # @param configure_report_processor
 # 
-#   Boolean for setting whether to configure puppet.conf to make use of mqtt report processor.  Default: true
+#   Boolean for setting whether to configure puppet.conf to make use of mqtt report processor.
 # 
 # @param manage_route_file
 # 
-#   Boolean for setting whether to create a new route_file and update puppet.conf to use it.  Default: true
+#   Boolean for setting whether to create a new route_file and update puppet.conf to use it.
 # 
 # @param mqtt_hostname
 # 
-#   Hostname of the mqtt broker. Default: mqtt.example.com
+#   Hostname of the mqtt broker.
 #
 # @param mqtt_port
 # 
-#   Port for mqtt client connection to MQTT broker.  Default: 1883
+#   Port for mqtt client connection to MQTT broker.
 #
 # @param disable_report_mqtt
 # 
-#   Parameter to disable the mqtt report processor from publishing to mqtt.  Default: false
+#   Parameter to disable the mqtt report processor from publishing to mqtt.
 #
 # @param report_publish_status
 # 
-#   Parameter for controlling which reports to publish based on report status.  Default: all
+#   Parameter for controlling which reports to publish based on report status.
 #
 # @param report_mqtt_topic
 # 
-#   MQTT topic to publish reports to.  Default: puppet/reports
+#   MQTT topic to publish reports to.
 #
 # @param disable_facts_mqtt
 # 
-#   Parameter for controlling which reports to publish based on report status.  Default: all
+#   Parameter for controlling which reports to publish based on report status.
 #
 # @param facts_terminus
 # 
-#   The mqtt facts terminus to set in route_file.  Default: mqtt
+#   The mqtt facts terminus to set in route_file.
 #
 # @param facts_cache_terminus
 # 
-#   The mqtt facts cache terminus to set in route_file.  Default: json
+#   The mqtt facts cache terminus to set in route_file.
 #
 # @param facts_mqtt_topic
 # 
-#   MQTT topic to publish facts to.  Default: puppet/facts
+#   MQTT topic to publish facts to.
+#
+# @param facts_selected_facts
+# 
+#   An optional array of facts to select.  If not defined, all facts will be selected.
 #
 # @example
 #   include pe_to_mqtt
@@ -65,6 +69,7 @@ class pe_to_mqtt (
   String                                     $facts_terminus,
   String                                     $facts_cache_terminus,
   String                                     $facts_mqtt_topic,
+  Optional[Array[String[1]]]                 $facts_selected_facts,
 ) {
   if $manage_mqtt_gem {
     # Install the mqtt gem

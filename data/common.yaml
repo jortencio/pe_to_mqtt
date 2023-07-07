@@ -11,3 +11,4 @@ pe_to_mqtt::report_mqtt_topic: 'puppet/reports'
 pe_to_mqtt::facts_terminus: mqtt
 pe_to_mqtt::facts_cache_terminus: json
 pe_to_mqtt::facts_mqtt_topic: 'puppet/facts'
+pe_to_mqtt::facts_selected_facts: ~
