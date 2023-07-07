@@ -19,7 +19,7 @@ class Puppet::Node::Facts::Mqtt < Puppet::Node::Facts::Puppetdb
       Puppet.info 'MQTT facts terminus is disabled, no fact data published to MQTT broker'
     else
       facts = if mqtt_config['facts'].key?('selected_facts')
-                request.instance.values.slice(mqtt_config['facts']['selected_facts'])
+                request.instance.values.select { |k, _v| mqtt_config['facts']['selected_facts'].include?(k) }
               else
                 request.instance.values
               end
