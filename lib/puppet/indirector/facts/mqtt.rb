@@ -18,10 +18,16 @@ class Puppet::Node::Facts::Mqtt < Puppet::Node::Facts::Puppetdb
     if mqtt_config['facts']['disabled']
       Puppet.info 'MQTT facts terminus is disabled, no fact data published to MQTT broker'
     else
+      facts = if mqtt_config['facts'].key?('selected_facts')
+                request.instance.values.slice(mqtt_config['facts']['selected_facts'])
+              else
+                request.instance.values
+              end
+
       request_body = {
-        'certname' => request.key,
-        'facts' => request.instance.values,
-        'name' => request.instance.name
+        certname => request.key,
+        name => request.instance.name,
+        facts => facts
       }
 
       begin
