@@ -10,3 +10,9 @@ report:
 facts:
   disabled: <%= $pe_to_mqtt::disable_facts_mqtt %>
   topic: <%= $pe_to_mqtt::facts_mqtt_topic %>
+<% if $pe_to_mqtt::facts_selected_facts { -%>
+  selected_facts:
+  <% $pe_to_mqtt::facts_selected_facts.each | $fact | { -%>
+    - <%= $fact %>
+  <% } -%>
+<% } -%>
