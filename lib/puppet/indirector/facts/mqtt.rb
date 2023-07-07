@@ -25,9 +25,9 @@ class Puppet::Node::Facts::Mqtt < Puppet::Node::Facts::Puppetdb
               end
 
       request_body = {
-        certname => request.key,
-        name => request.instance.name,
-        facts => facts
+        'certname' => request.key,
+        'name'     => request.instance.name,
+        'facts'    => facts
       }
 
       begin
