@@ -1,10 +1,12 @@
 {
   "name": "jortencio-pe_to_mqtt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "jortencio",
   "summary": "A Puppet module for setting up a fact terminus and/or report processor for publishing data to an MQTT broker via the MQTT protocol.",
   "license": "Apache-2.0",
   "source": "https://github.com/jortencio/pe_to_mqtt",
+  "project_page": "https://github.com/jortencio/pe_to_mqtt",
+  "issues_url": "https://github.com/jortencio/pe_to_mqtt/issues",
   "dependencies": [
     {
       "name": "puppetlabs/inifile",

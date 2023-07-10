@@ -26,7 +26,7 @@ This Puppet module can be used to configure a Puppet Enterprise server to send d
 
 ### What pe_to_mqtt affects
 
-This module will manage/install the [mqtt gem](https://www.rubydoc.info/gems/mqtt) on the Puppet server and will configure the following configuration files:
+This module will manage/install the [mqtt gem][1] on the Puppet server and will configure the following configuration files:
 
   - *puppet.conf* file to make use of the fact indirector code (via a custom route_file) and report processor code installed via this module.
   - *mqtt_routes.yaml* a custom route_file for setting the facts terminus and facts cache terminus
@@ -35,7 +35,7 @@ This module will manage/install the [mqtt gem](https://www.rubydoc.info/gems/mqt
 ### Setup Requirements
 
  - Puppet Enterprise (PE)
- - MQTT Broker (Such as [EMQX][1])
+ - MQTT Broker (Such as [EMQX][2]. A Puppet module for configuring EMQX can be found [here][3])
 
 ### Beginning with pe_to_mqtt
 
@@ -120,17 +120,54 @@ pe_to_mqtt::mqtt_port: 1883
 pe_to_mqtt::report_mqtt_topic: 'custom_topic/puppet_reports'
 ```
 
+Configure pe_to_mqtt to only send select fields of a Puppet report to the MQTT broker (refer to REFERENCE.md for available fields to select or Puppet gem documentation[4]):
+
+```yaml
+---
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+pe_to_mqtt::report_selected_fields:
+  - host
+  - time
+  - configuration_version
+  - transaction_uuid
+  - report_format
+  - puppet_version
+  - status
+  - transaction_completed
+  - noop
+  - noop_pending
+  - environment
+```
+
+Configure pe_to_mqtt to only send select facts to the MQTT Broker:
+
+```yaml
+---
+pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
+pe_to_mqtt::mqtt_port: 1883
+pe_to_mqtt::facts_selected_facts:
+  - os
+  - memory
+  - puppetversion
+  - system_uptime
+  - load_averages
+  - ipaddress
+  - fqdn
+```
+
 ## Limitations
 
   - Currently only tested on a Puppet Enterprise Installation (PE 2021.7.3)
   - Only basic configuration is available for MQTT, (e.g. SSL not yet supported).
-  - Unable to filter facts, all facts are sent to MQTT
-  - Limitation in the filtering of reports sent to MQTT
-  - There may be some issues publishing facts/report data that is > 500 KB.  This behaviour has been noticed for Puppet Primary Server/Compiler reports where reports published to the MQTT Broker seem to get lost when they are greater than 500 KB. (Future plans to add settings for controlling the report payload in the future which can help control payload size)
+  - There can be some issues publishing facts/report data that is > 500 KB.  This behaviour has been noticed for Puppet Primary Server/Compiler reports where reports published to the MQTT Broker seem to get lost when they are greater than 500 KB on EMQX.  This is likely to be due to settings on the MQTT broker regarding max size limits for message payloads.
 
 ## Development
 
-If you would like to contribute with the development of this module, please feel free to log development changes in the [issues][2] register for this project  
+If you would like to contribute with the development of this module, please feel free to log development changes in the [issues][5] register for this project  
 
-[1]: https://www.emqx.io/
-[2]: https://github.com/jortencio/pe_to_mqtt/issues
+[1]: https://www.rubydoc.info/gems/mqtt
+[2]: https://www.emqx.io/
+[3]: https://forge.puppet.com/modules/jortencio/emqx
+[4]: https://www.rubydoc.info/gems/puppet/Puppet/Transaction/Report
+[5]: https://github.com/jortencio/pe_to_mqtt/issues
