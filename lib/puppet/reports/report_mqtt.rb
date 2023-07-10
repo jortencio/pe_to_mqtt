@@ -21,7 +21,7 @@ Puppet::Reports.register_report(:report_mqtt) do
 
         if mqtt_config['report']['publish_status'] == 'all' || self.status == mqtt_config['report']['publish_status']
           Puppet.info 'Publish report to MQTT Broker. Topic: ' + mqtt_config['report']['topic']
-          mqtt_conn.publish(mqtt_config['report']['topic'], self.to_json)
+          mqtt_conn.publish(mqtt_config['report']['topic'], self.to_data_hash)
         end
       rescue => e
         Puppet.err 'Error in report_mqtt report processor.  Message: ' + e.message
