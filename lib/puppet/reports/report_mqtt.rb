@@ -17,7 +17,7 @@ Puppet::Reports.register_report(:report_mqtt) do
     else
       begin
         report = if mqtt_config['report'].key?('selected_fields')
-                   self.to_data_hash.select { |k, _v| mqtt_config['report']['selected_fields'].exclude?(k) }
+                   self.to_data_hash.select { |k, _v| mqtt_config['report']['selected_fields'].include?(k) }
                  else
                    self.to_data_hash
                  end
