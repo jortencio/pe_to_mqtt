@@ -1,24 +1,24 @@
 # Managed by Puppet (pe_to_mqtt module)
 ---
 mqtt:
-  hostname: <%= $pe_to_mqtt::mqtt_hostname -%>
-  port: <%= $pe_to_mqtt::mqtt_port -%>
+  hostname: <%= $pe_to_mqtt::mqtt_hostname %>
+  port: <%= $pe_to_mqtt::mqtt_port %>
 report:
-  disabled: <%= $pe_to_mqtt::disable_report_mqtt -%>
-  topic: <%= $pe_to_mqtt::report_mqtt_topic -%>
-  publish_status: <%= $pe_to_mqtt::report_publish_status -%>
+  disabled: <%= $pe_to_mqtt::disable_report_mqtt %>
+  topic: <%= $pe_to_mqtt::report_mqtt_topic %>
+  publish_status: <%= $pe_to_mqtt::report_publish_status %>
 <% if $pe_to_mqtt::report_selected_fields { -%>
   selected_fields:
   <% $pe_to_mqtt::report_selected_fields.each | $field | { -%>
-    - <%= $field -%>
+    - <%= $field %>
   <% } -%>
 <% } -%>
 facts:
-  disabled: <%= $pe_to_mqtt::disable_facts_mqtt -%>
-  topic: <%= $pe_to_mqtt::facts_mqtt_topic -%>
+  disabled: <%= $pe_to_mqtt::disable_facts_mqtt %>
+  topic: <%= $pe_to_mqtt::facts_mqtt_topic %>
 <% if $pe_to_mqtt::facts_selected_facts { -%>
   selected_facts:
   <% $pe_to_mqtt::facts_selected_facts.each | $fact | { -%>
-    - <%= $fact -%>
+    - <%= $fact %>
   <% } -%>
 <% } -%>
