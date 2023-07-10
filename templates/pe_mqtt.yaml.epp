@@ -7,6 +7,12 @@ report:
   disabled: <%= $pe_to_mqtt::disable_report_mqtt %>
   topic: <%= $pe_to_mqtt::report_mqtt_topic %>
   publish_status: <%= $pe_to_mqtt::report_publish_status %>
+<% if $pe_to_mqtt::report_selected_fields { -%>
+  selected_fields:
+  <% $pe_to_mqtt::report_selected_fields.each | $field | { -%>
+    - <%= $field %>
+  <% } -%>
+<% } -%>
 facts:
   disabled: <%= $pe_to_mqtt::disable_facts_mqtt %>
   topic: <%= $pe_to_mqtt::facts_mqtt_topic %>

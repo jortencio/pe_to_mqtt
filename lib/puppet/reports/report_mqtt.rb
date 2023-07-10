@@ -16,8 +16,8 @@ Puppet::Reports.register_report(:report_mqtt) do
       Puppet.info 'report_mqtt is disabled, no report data published to mqtt'
     else
       begin
-        report = if mqtt_config['report'].key?('select_fields')
-                   self.to_data_hash.select { |k, _v| mqtt_config['report']['select_fields'].exclude?(k) }
+        report = if mqtt_config['report'].key?('selected_fields')
+                   self.to_data_hash.select { |k, _v| mqtt_config['report']['selected_fields'].exclude?(k) }
                  else
                    self.to_data_hash
                  end

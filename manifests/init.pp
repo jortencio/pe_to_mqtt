@@ -34,6 +34,10 @@
 # 
 #   MQTT topic to publish reports to.
 #
+# @param report_selected_fields
+# 
+#   An optional array of facts to select.  If not defined, all facts will be selected.
+# 
 # @param disable_facts_mqtt
 # 
 #   Parameter for controlling which reports to publish based on report status.
@@ -57,19 +61,41 @@
 # @example
 #   include pe_to_mqtt
 class pe_to_mqtt (
-  Boolean                                    $manage_mqtt_gem,
-  Boolean                                    $configure_report_processor,
-  Boolean                                    $manage_route_file,
-  String                                     $mqtt_hostname,
-  Integer                                    $mqtt_port,
-  Boolean                                    $disable_report_mqtt,
-  Enum['all','changed','unchanged','failed'] $report_publish_status,
-  String                                     $report_mqtt_topic,
-  Boolean                                    $disable_facts_mqtt,
-  String                                     $facts_terminus,
-  String                                     $facts_cache_terminus,
-  String                                     $facts_mqtt_topic,
-  Optional[Array[String[1]]]                 $facts_selected_facts,
+  Boolean                                    $manage_mqtt_gem            = true,
+  Boolean                                    $configure_report_processor = true,
+  Boolean                                    $manage_route_file          = true,
+  String                                     $mqtt_hostname              = 'mqtt.example.com',
+  Integer                                    $mqtt_port                  = 1883,
+  Boolean                                    $disable_report_mqtt        = false,
+  Enum['all','changed','unchanged','failed'] $report_publish_status      = 'all',
+  String                                     $report_mqtt_topic          = 'puppet/reports',
+  Optional[Array[Enum[
+        'host',
+        'time',
+        'configuration_version',
+        'transaction_uuid',
+        'report_format',
+        'puppet_version',
+        'status',
+        'transaction_completed',
+        'noop',
+        'noop_pending',
+        'environment',
+        'logs',
+        'metrics',
+        'resource_statuses',
+        'corrective_change',
+        'server_used',
+        'catalog_uuid',
+        'code_id',
+        'job_id',
+        'cached_catalog_status',
+  ]]]                                        $report_selected_fields     = undef,
+  Boolean                                    $disable_facts_mqtt         = false,
+  String                                     $facts_terminus             = 'mqtt',
+  String                                     $facts_cache_terminus       = 'json',
+  String                                     $facts_mqtt_topic           = 'puppet/facts',
+  Optional[Array[String[1]]]                 $facts_selected_facts       = undef,
 ) {
   if $manage_mqtt_gem {
     # Install the mqtt gem
