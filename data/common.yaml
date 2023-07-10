@@ -5,9 +5,10 @@ pe_to_mqtt::manage_route_file: true
 pe_to_mqtt::mqtt_hostname: 'mqtt.example.com'
 pe_to_mqtt::mqtt_port: 1883
 pe_to_mqtt::disable_report_mqtt: false
-pe_to_mqtt::disable_facts_mqtt: false
 pe_to_mqtt::report_publish_status: 'all'
 pe_to_mqtt::report_mqtt_topic: 'puppet/reports'
+pe_to_mqtt::report_selected_fields: ~
+pe_to_mqtt::disable_facts_mqtt: false
 pe_to_mqtt::facts_terminus: mqtt
 pe_to_mqtt::facts_cache_terminus: json
 pe_to_mqtt::facts_mqtt_topic: 'puppet/facts'
