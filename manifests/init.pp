@@ -98,10 +98,18 @@ class pe_to_mqtt (
   Optional[Array[String[1]]]                 $facts_selected_facts       = undef,
 ) {
   if $manage_mqtt_gem {
-    # Install the mqtt gem
-    package { 'mqtt':
+    # Install the mqtt gem in Puppet server Ruby
+    package { 'puppet_server_mqtt':
       ensure   => present,
+      name     => 'mqtt',
       provider => puppetserver_gem,
+    }
+
+    # Install the mqtt gem in Puppet agent Ruby
+    package { 'puppet_agent_mqtt':
+      ensure   => present,
+      name     => 'mqtt',
+      provider => puppet_gem,
     }
   }
 
