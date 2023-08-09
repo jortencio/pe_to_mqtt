@@ -32,8 +32,10 @@ Puppet::Reports.register_report(:report_mqtt) do
       rescue => e
         Puppet.err 'Error in report_mqtt report processor.  Message: ' + e.message
       ensure
-        Puppet.info 'Disconnect from MQTT: ' + mqtt_config['mqtt']['hostname']
-        mqtt_conn.disconnect if defined? mqtt_conn
+        unless mqtt_conn.nil?
+          Puppet.info 'Disconnect from MQTT: ' + mqtt_config['mqtt']['hostname']
+          mqtt_conn.disconnect
+        end
       end
     end
   end
