@@ -39,7 +39,7 @@ class Puppet::Node::Facts::Mqtt < Puppet::Node::Facts::Puppetdb
         Puppet.err 'Error in MQTT facts terminus.  Message: ' + e.message
       ensure
         Puppet.info 'Disconnect from MQTT: ' + mqtt_config['mqtt']['hostname']
-        mqtt_conn.disconnect
+        mqtt_conn.disconnect if defined? mqtt_conn
       end
     end
 
