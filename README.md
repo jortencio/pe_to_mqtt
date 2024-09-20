@@ -1,6 +1,6 @@
 # pe_to_mqtt
 
-A Puppet module that is used for setting up a fact terminus and/or report processor for publishing fact and/or report data respectively to an MQTT broker via the MQTT protocol.
+A Puppet module that is used for setting up a fact terminus and/or report processor for publishing fact and/or report data respectively from a Puppet Server to an MQTT broker via the MQTT protocol.
 
 >Note: This module has been tested to send data to an EMQX MQTT broker, but should work with other MQTT brokers as well as it is just making using a generic MQTT client.
 
@@ -17,7 +17,7 @@ A Puppet module that is used for setting up a fact terminus and/or report proces
 
 ## Description
 
-This Puppet module can be used to configure a Puppet Enterprise server to send data to a given MQTT broker via the MQTT protocol.
+This Puppet module can be used to configure a Puppet server to send data to a given MQTT broker via the MQTT protocol.
 
   - Facts data for nodes will by default be published to the topic *puppet/facts*
   - Reports for nodes will by default be published to the topic *puppet/reports*
@@ -34,7 +34,7 @@ This module will manage/install the [mqtt gem][1] on the Puppet server and will 
 
 ### Setup Requirements
 
- - Puppet Enterprise (PE)
+ - Puppet Server
  - MQTT Broker (Such as [EMQX][2]. A Puppet module for configuring EMQX can be found [here][3])
 
 ### Beginning with pe_to_mqtt
@@ -158,7 +158,7 @@ pe_to_mqtt::facts_selected_facts:
 
 ## Limitations
 
-  - Currently only tested on a Puppet Enterprise Installation (PE 2021.7.3)
+  - Currently tested on a Puppet Enterprise Installation (PE 2021.7.9/PE 2023.8.0)
   - Only basic configuration is available for MQTT, (e.g. SSL not yet supported).
   - There can be some issues publishing facts/report data that is > 500 KB.  This behaviour has been noticed for Puppet Primary Server/Compiler reports where reports published to the MQTT Broker seem to get lost when they are greater than 500 KB on EMQX.  This is likely to be due to settings on the MQTT broker regarding max size limits for message payloads.
 
