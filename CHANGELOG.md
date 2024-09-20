@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.3.0
+**Features**
+* Updated and test for Puppet 8 Readiness (PDK Template (3.3.0) and metadata update) [#20](https://github.com/jortencio/pe_to_mqtt/issues/20)
+* Update tests for 100% resource coverage [#19](https://github.com/jortencio/pe_to_mqtt/issues/19)
+
+**Bugfixes**
+
+**Known Issues**
+
 ## v0.2.1
 **Features**
 
