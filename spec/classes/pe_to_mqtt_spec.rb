@@ -21,7 +21,6 @@ describe 'pe_to_mqtt' do
       it { is_expected.to contain_file('/etc/puppetlabs/puppet/pe_mqtt.yaml') }
       it { is_expected.to contain_ini_setting('change default route_file') }
       it { is_expected.to contain_ini_subsetting('enable report_mqtt') }
-
     end
   end
 end
