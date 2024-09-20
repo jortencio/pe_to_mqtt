@@ -43,7 +43,6 @@ RSpec.configure do |c|
   c.before :each do
     # set to strictest setting for testing
     # by default Puppet runs at warning level
-    Puppet.settings[:confdir] = '/etc/puppetlabs/puppet'
     Puppet.settings[:strict] = :warning
     Puppet.settings[:strict_variables] = true
   end
